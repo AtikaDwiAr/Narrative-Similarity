@@ -28,7 +28,6 @@ with open(output_path, "w", encoding="utf-8") as fout:
         sim_a = util.cos_sim(emb_anchor, emb_a).item()
         sim_b = util.cos_sim(emb_anchor, emb_b).item()
 
-        # Pilih yang lebih mirip
         is_a_closer = sim_a > sim_b
 
         result = {
