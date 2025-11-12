@@ -23,6 +23,6 @@ for i, (p, g) in enumerate(zip(preds, golds)):
 
 accuracy = correct / len(golds)
 
-# Hasil
+# Hasil Akurasi
 print(f"Jumlah benar: {correct}/{len(golds)}")
 print(f"Akurasi: {accuracy:.4f}")
