@@ -1,0 +1,2 @@
+output/sbert_finetuned_model/*.safetensors filter=lfs diff=lfs merge=lfs -text
+output/sbert_finetuned_modelepoch10/*.safetensors filter=lfs diff=lfs merge=lfs -text
