@@ -50,7 +50,12 @@ class SiameseClassifier(nn.Module):
         
         # Load SBERT encoder
         print(f"Loading SBERT model from {sbert_model_path}...")
-        self.sbert = SentenceTransformer(sbert_model_path)
+        # Try to load without authentication first
+        try:
+            self.sbert = SentenceTransformer(sbert_model_path, token=False)
+        except Exception as e:
+            print(f"Failed to load with token=False, trying without token parameter...")
+            self.sbert = SentenceTransformer(sbert_model_path)
         
         # Freeze SBERT if specified
         if freeze_sbert:
@@ -152,6 +157,12 @@ class SiameseClassifier(nn.Module):
             anchor_emb = self.encode_texts(anchor_texts)
             text_a_emb = self.encode_texts(text_a_list)
             text_b_emb = self.encode_texts(text_b_list)
+        
+        # Move embeddings to the same device as the classifier
+        device = next(self.classifier.parameters()).device
+        anchor_emb = anchor_emb.to(device)
+        text_a_emb = text_a_emb.to(device)
+        text_b_emb = text_b_emb.to(device)
         
         # Extract features
         features = self.compute_features(anchor_emb, text_a_emb, text_b_emb)

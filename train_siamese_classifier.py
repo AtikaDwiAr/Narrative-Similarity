@@ -273,13 +273,17 @@ def main():
     print(f"  Trainable: {param_counts['trainable']:,}")
     print(f"  Frozen: {param_counts['frozen']:,}\n")
     
+    # Move model to device
+    print(f"Moving model to {device}...")
+    model = model.to(device)
+    
     # Setup optimizer and loss
     optimizer = AdamW(
         model.get_trainable_params(),
         lr=CONFIG["learning_rate"],
         weight_decay=CONFIG["weight_decay"]
     )
-    criterion = nn.CrossEntropyLoss()
+    criterion = nn.CrossEntropyLoss().to(device)
     
     # Initialize trainer
     trainer = SiameseTrainer(
